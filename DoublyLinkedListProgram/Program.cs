@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace DoublyLinkedListProgram
+﻿namespace DoublyLinkedListProgram
 {
 	class Node
 	{
@@ -54,6 +52,56 @@ namespace DoublyLinkedListProgram
 				node.next = head;
 				head.prev = node;
 				head = node;
+			}
+		}
+
+		public void AddAfter(int checkVal, int newVal)
+		{
+			Node node = Find(checkVal);
+
+			if (node == tail)
+			{
+				AddToEnd(newVal);
+			}
+			else if (node != null)
+			{
+				Node curr = head;
+
+				while (curr.next != null)
+				{
+					if (curr.val == checkVal)
+					{
+						Node newNode = new Node(newVal);
+						Node next = curr.next;
+						newNode.next = curr.next;
+						next.prev = newNode;
+						curr.next = newNode;
+						newNode.prev = curr;
+
+						break;
+					}
+
+					curr = curr.next;
+				}
+			}
+		}
+
+		public void AddBefore(int checkVal, int newVal)
+		{
+			Node node = Find(checkVal);
+
+			if (node == head)
+			{
+				AddToStart(newVal);
+			}
+			else if (node != null)
+			{
+				Node newNode = new Node(newVal);
+				Node prev = node.prev;
+				prev.next = newNode;
+				newNode.prev = prev;
+				newNode.next = node;
+				node.prev = newNode;
 			}
 		}
 
@@ -187,12 +235,48 @@ namespace DoublyLinkedListProgram
                 curr = curr.prev;
 			}
 		}
+
+		public void ArrayToLinkedList(int[] arr)
+		{
+			if (!IsEmpty())
+			{
+				Clear();
+			}
+
+			foreach (int val in arr)
+			{
+				AddToEnd(val);
+			}
+		}
+
+		public void Clear()
+		{
+			if (!IsEmpty())
+			{
+				while (head != null)
+				{
+					RemoveFirst();
+				}
+			}
+			else
+			{
+                Console.WriteLine("List already empty");
+            }
+		}
+
+		public bool IsEmpty() => head == null;
     }
 	internal class Program
 	{
 		static void Main(string[] args)
 		{
 			DoublyLinkedList list = new DoublyLinkedList();
+			list.AddToEnd(1);
+			list.AddToEnd(2);
+			list.AddToEnd(3);
+			list.AddToEnd(4);
+			list.AddBefore(4, 10);
+			list.Print();
 		}
 	}
 }
