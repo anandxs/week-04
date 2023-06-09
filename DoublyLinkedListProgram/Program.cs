@@ -1,4 +1,6 @@
-﻿namespace DoublyLinkedListProgram
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace DoublyLinkedListProgram
 {
 	class Node
 	{
@@ -98,7 +100,30 @@
 		{
 			if (Contains(val))
 			{
+				Node del = Find(val);
 
+				if (del == head)
+					RemoveFirst();
+				else if (del == tail)
+					RemoveLast();
+				else
+				{
+					Node curr = head.next;
+
+					while (curr.next != null)
+					{
+						if (curr == del)
+						{
+							Node prev = curr.prev;
+							Node next = curr.next;
+							prev.next = next;
+							curr.next = curr.prev = null;
+							break;
+						}
+
+						curr = curr.next;
+					}
+				}
 			}
 			else
 			{
@@ -119,6 +144,28 @@
 			}
 
 			return false;
+		}
+
+		public Node Find(int val)
+		{
+			if (Contains(val))
+			{
+				Node node = head;
+
+				while (node != null)
+				{
+					if (node.val == val)
+					{
+						return node;
+					}
+
+					node = node.next;
+				}
+			}
+
+            Console.WriteLine("No such node");
+
+            return null;
 		}
 
 		public void Print()
@@ -146,6 +193,6 @@
 		static void Main(string[] args)
 		{
 			DoublyLinkedList list = new DoublyLinkedList();
-        }
+		}
 	}
 }
