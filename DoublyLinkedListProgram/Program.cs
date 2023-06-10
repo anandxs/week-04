@@ -14,13 +14,18 @@
 	}
 	class DoublyLinkedList
 	{
-		public Node? head;
-		public Node? tail;
+		private Node? head;
+		private Node? tail;
+		private int count;
+
+		public Node? Head { get { return head; } }
+		public Node? Tail { get { return tail; } }
+		public int Count { get { return count; } }
 
         public DoublyLinkedList()
         {
-			head = null;
-			tail = null;
+			head = tail = null;
+			count = 0;
 		}
 
 		public void AddToEnd(int val)
@@ -37,6 +42,8 @@
 				node.prev = tail;
 				tail = node;
 			}
+
+			count++;
 		}
 
 		public void AddToStart(int val)
@@ -53,6 +60,8 @@
 				head.prev = node;
 				head = node;
 			}
+
+			count++;
 		}
 
 		public void AddAfter(int checkVal, int newVal)
@@ -83,6 +92,8 @@
 
 					curr = curr.next;
 				}
+
+				count++;
 			}
 		}
 
@@ -102,6 +113,7 @@
 				newNode.prev = prev;
 				newNode.next = node;
 				node.prev = newNode;
+				count++;
 			}
 		}
 
@@ -120,6 +132,8 @@
 				head.prev = null;
 				temp.next = null;
 			}
+
+			count--;
 			
 			return result;
 		}
@@ -140,6 +154,8 @@
 				tail.next = null;
 				temp.prev = null;
 			}
+
+			count--;
 
 			return result;
 		}
@@ -166,6 +182,7 @@
 							Node next = curr.next;
 							prev.next = next;
 							curr.next = curr.prev = null;
+							count--;
 							break;
 						}
 
@@ -264,19 +281,13 @@
             }
 		}
 
-		public bool IsEmpty() => head == null;
+		public bool IsEmpty() => count == 0;
     }
 	internal class Program
 	{
 		static void Main(string[] args)
 		{
 			DoublyLinkedList list = new DoublyLinkedList();
-			list.AddToEnd(1);
-			list.AddToEnd(2);
-			list.AddToEnd(3);
-			list.AddToEnd(4);
-			list.AddBefore(4, 10);
-			list.Print();
-		}
+        }
 	}
 }

@@ -14,10 +14,11 @@
 	class SinglyLinkedList
 	{
 		private Node? _head;
-		public Node? _tail;
+		private Node? _tail;
 		private int _count;
 
 		public Node? Head { get { return _head; } }
+		public Node? Tail { get { return _tail; } }
 		public int Count { get { return _count; } }
 
 		public SinglyLinkedList()
@@ -319,14 +320,6 @@
 		static void Main(string[] args)
 		{
 			SinglyLinkedList list = new SinglyLinkedList();
-			list.AddToStart(1);
-			list.AddToStart(1);
-			list.AddToStart(1);
-			list.AddToStart(1);
-			list.AddToStart(1);
-			Console.WriteLine(list.Count);
-			list.RemoveDuplicates();
-			Console.WriteLine(list.Count);
         }
 	}
 }
