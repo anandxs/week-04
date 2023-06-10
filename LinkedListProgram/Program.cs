@@ -13,42 +13,51 @@
 	}
 	class SinglyLinkedList
 	{
-		public Node? head;
-		public Node? tail;
+		private Node? _head;
+		public Node? _tail;
+		private int _count;
+
+		public Node? Head { get { return _head; } }
+		public int Count { get { return _count; } }
 
 		public SinglyLinkedList()
 		{
-			head = tail = null;
+			_head = _tail = null;
+			_count = 0;
 		}
 
 		public void AddToEnd(int val)
 		{
 			Node temp = new Node(val);
 
-			if (tail == null)
+			if (_tail == null)
 			{
-				head = tail = temp;
+				_head = _tail = temp;
 			}
 			else
 			{
-				tail.next = temp;
-				tail = temp;
+				_tail.next = temp;
+				_tail = temp;
 			}
+
+			_count++;
 		}
 
 		public void AddToStart(int val)
 		{
 			Node temp = new Node(val);
 
-			if (head == null)
+			if (_head == null)
 			{
-				head = tail = temp;
+				_head = _tail = temp;
 			}
 			else
 			{
-				temp.next = head;
-				head = temp;
+				temp.next = _head;
+				_head = temp;
 			}
+
+			_count++;
 		}
 
 		public void AddAfter(int newVal, int checkVal)
@@ -56,7 +65,7 @@
 			if (Contains(checkVal))
 			{
 				Node node = new Node(newVal);
-				Node curr = head;
+				Node curr = _head;
 
 				while (curr != null)
 				{
@@ -69,6 +78,8 @@
 
 					curr = curr.next;
 				}
+
+				_count++;
 			}
 			else
 			{
@@ -80,13 +91,13 @@
 		{
 			if (Contains(checkVal))
 			{
-				if (head.val == checkVal)
+				if (_head.val == checkVal)
 				{
 					AddToStart(newVal);
 				}
 				else
 				{
-					Node curr = head;
+					Node curr = _head;
 					while(curr.next != null)
 					{
 						if (curr.next.val == checkVal)
@@ -98,6 +109,8 @@
 						curr = curr.next;
 					}
 				}
+
+				_count++;
 			}
 			else
 			{
@@ -107,42 +120,46 @@
 
 		public int RemoveFirst()
 		{
-			if (head == null)
+			if (_head == null)
 				throw new Exception("Empty list");
 
-			Node temp = head;
+			Node temp = _head;
 			int result = temp.val;
-			head = head.next;
+			_head = _head.next;
 			temp.next = null;
 
-			if (head == null)
-				tail = null;
+			if (_head == null)
+				_tail = null;
+
+			_count--;
 
 			return result;
 		}
 
 		public int RemoveLast()
 		{
-			if (tail == null)
+			if (_tail == null)
 			{
 				throw new Exception("Empty list");
 			}
 
-			int result = tail.val;
-			if (head == tail)
+			int result = _tail.val;
+			if (_head == _tail)
 			{
-				head = tail = null;
+				_head = _tail = null;
 			}
 			else
 			{
-				Node temp = head;
+				Node temp = _head;
 				while (temp.next.next != null)
 				{
 					temp = temp.next;
 				}
-				tail = temp;
+				_tail = temp;
 				temp.next = null;
 			}
+
+			_count--;
 
 			return result;
 		}
@@ -153,14 +170,14 @@
 			{
 				Node del = Find(val);
 
-				if (del == head)
+				if (del == _head)
 					RemoveFirst();
-				else if (del == tail)
+				else if (del == _tail)
 					RemoveLast();
 				else
 				{
-					Node prev = head;
-					Node curr = head.next;
+					Node prev = _head;
+					Node curr = _head.next;
 					Node next = curr.next;
 
 					while (curr.next != null)
@@ -174,6 +191,8 @@
 						curr = next;
 						next = next.next;
 					}
+
+					_count--;
 				}
 			}
 			else
@@ -185,7 +204,7 @@
 		public void RemoveDuplicates()
 		{
 			Node prev, curr, next;
-			curr = head;
+			curr = _head;
 
 			while (curr.next != null)
 			{
@@ -195,6 +214,7 @@
 				{
 					curr.next = next.next;
 					next.next = null;
+					_count--;
 				}
 				else
 				{
@@ -205,10 +225,10 @@
 
 		public bool Contains(int val)
 		{
-			if (head == null)
+			if (_head == null)
 				return false;
 
-			Node temp = head;
+			Node temp = _head;
 
 			while (temp != null)
 			{
@@ -223,10 +243,10 @@
 
 		public Node Find(int val)
 		{
-			if (head == null)
+			if (_head == null)
 				return null;
 
-			Node temp = head;
+			Node temp = _head;
 
 			while (temp != null)
 			{
@@ -241,7 +261,7 @@
 
 		public void Clear()
 		{
-			while (head != null)
+			while (_head != null)
 			{
 				RemoveLast();
 			}
@@ -249,7 +269,7 @@
 
 		public void ArrayToSinglyLinkedList(int[] arr)
 		{
-			if (head != null)
+			if (_head != null)
 			{
 				Clear();
 			}
@@ -262,7 +282,7 @@
 
 		public void Print()
 		{
-			Node temp = head;
+			Node temp = _head;
 
 			while (temp != null)
 			{
@@ -273,10 +293,10 @@
 
 		public void ReversePrint()
 		{
-			if (head == null)
+			if (_head == null)
 				Print();
 			else
-				ReversePrintHelper(head);
+				ReversePrintHelper(_head);
 		}
 
 		private void ReversePrintHelper(Node? head)
@@ -298,7 +318,15 @@
 	{
 		static void Main(string[] args)
 		{
-
+			SinglyLinkedList list = new SinglyLinkedList();
+			list.AddToStart(1);
+			list.AddToStart(1);
+			list.AddToStart(1);
+			list.AddToStart(1);
+			list.AddToStart(1);
+			Console.WriteLine(list.Count);
+			list.RemoveDuplicates();
+			Console.WriteLine(list.Count);
         }
 	}
 }
